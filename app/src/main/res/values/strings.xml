@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Slack</string>
+    <string name="users_title">Slack Users</string>
+    <string name="username">User name:</string>
+    <string name="realname">Real Name:</string>
+    <string name="titleLabel">Title:</string>
+    <string name="title_activity_profile">Profile</string>
 </resources>
