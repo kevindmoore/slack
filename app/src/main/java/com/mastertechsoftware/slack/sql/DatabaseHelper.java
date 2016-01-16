@@ -8,6 +8,10 @@ import java.util.List;
 public class DatabaseHelper {
     protected String databaseName;
 
+	/**
+     * Constructor
+     * @param databaseName
+     */
     public DatabaseHelper(String databaseName) {
         this.databaseName = databaseName;
     }
@@ -34,7 +38,7 @@ public class DatabaseHelper {
      * Get a single table item
      * @param tableClass
      * @param id
-     * @return
+     * @return table item
      */
     public Class<? extends ReflectTableInterface> get(Class<? extends ReflectTableInterface> tableClass, int id) {
         return (Class<? extends ReflectTableInterface>) DatabaseManager.getInstance().getItem(databaseName, tableClass, id);

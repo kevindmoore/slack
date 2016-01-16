@@ -8,7 +8,7 @@ import com.mastertechsoftware.slack.api.SlackUsers;
 import com.mastertechsoftware.slack.log.Logger;
 import com.mastertechsoftware.slack.models.User;
 import com.mastertechsoftware.slack.models.UserList;
-import com.mastertechsoftware.slack.sql.DatabaseHelper;
+import com.mastertechsoftware.slack.users.SlackUserDatabaseStorage;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 	private RecyclerView recyclerView;
 	protected Toolbar toolbar;
 	private MainAdapter mainAdapter;
-	private DatabaseHelper databaseHelper;
+	private SlackUserDatabaseStorage userDatabaseStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			toolbar.setTitle(R.string.users_title);
 		}
 		// First get the stored Users
-		databaseHelper = ((SlackApp) getApplication()).getDatabaseHelper();
-		mainAdapter = new MainAdapter((List<User>)databaseHelper.getAll(User.class), MainActivity.this);
+		userDatabaseStorage = ((SlackApp) getApplication()).getUserDatabaseStorage();
+		mainAdapter = new MainAdapter((List<User>)userDatabaseStorage.getUsers(), MainActivity.this);
 		recyclerView.setAdapter(mainAdapter);
 		retrieveUsers();
 	}
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 						final List<User> members = userList.body().getMembers();
 						mainAdapter = new MainAdapter(members, MainActivity.this);
 						recyclerView.setAdapter(mainAdapter);
-						databaseHelper.removeAll(User.class);
-						databaseHelper.addAll(User.class, members);
+						userDatabaseStorage.removeAll();
+						userDatabaseStorage.addAll(members);
 					}
 				}
 
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 			};
 			retriever.getUsers(callback);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Logger.error("Problems calling API", 3);
 		}
 
 	}

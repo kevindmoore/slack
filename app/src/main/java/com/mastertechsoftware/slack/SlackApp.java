@@ -5,6 +5,7 @@ import com.mastertechsoftware.slack.models.Profile;
 import com.mastertechsoftware.slack.models.User;
 import com.mastertechsoftware.slack.sql.DatabaseHelper;
 import com.mastertechsoftware.slack.sql.DatabaseManager;
+import com.mastertechsoftware.slack.users.SlackUserDatabaseStorage;
 
 import android.app.Application;
 
@@ -14,6 +15,7 @@ import android.app.Application;
 public class SlackApp extends Application {
 
 	private DatabaseHelper databaseHelper;
+	private SlackUserDatabaseStorage userDatabaseStorage;
 
 	@Override
 	public void onCreate() {
@@ -26,11 +28,16 @@ public class SlackApp extends Application {
 		DatabaseManager.getInstance(this);
 		databaseHelper = new DatabaseHelper("Slack");
 		databaseHelper.createDatabase("User", User.class, Profile.class);
+		userDatabaseStorage = new SlackUserDatabaseStorage(this);
 	}
 
 	public void setLogInfo() {
 		Logger.setApplicationTag("SlackApp");
 		Logger.setAddClassNameToMessage(true);
+	}
+
+	public SlackUserDatabaseStorage getUserDatabaseStorage() {
+		return userDatabaseStorage;
 	}
 
 	public DatabaseHelper getDatabaseHelper() {

@@ -1,5 +1,5 @@
 # Slack Sample App
-This app is a simple demonstration of how to connect to slack, pull down users and view a user's profile  
+This app is a simple demonstration of how to connect to slack, pull down users and view a user's profile. It has two views, one that lists all of the slack user's names and another that shows the user's profile when their name is clicked on.  
 
 # 3rd Party Libraries
 1. Retrofit 2.0 - This is my preferred way to implement REST API's. This makes accessing and digesting JSON data very easy.
